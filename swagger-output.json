@@ -1,0 +1,720 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "Boo Coding Challenge",
+    "description": "REST API's for comments, votes and likes on a comment.Ideal flow for the implementation is \n<ls><li>Create two users</li><li>Create one comment targeting one user on behalf of another user.</li><li>Vote the comment using commentId.</li><li>Like or dislike the comment using separate APIs.</li><li>Like and dislike maintains no record about the source. </li><li>Increment and decrement action is included in the same API, for increment use value as 1, to decrement use value as -1.</li></ls>"
+  },
+  "host": "localhost:3000",
+  "basePath": "/",
+  "schemes": [
+    "http"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/profile/{profileId}": {
+      "get": {
+        "tags": [
+          "Profile"
+        ],
+        "description": "Endpoint to sign in a specific user",
+        "parameters": [
+          {
+            "name": "profileId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/profile/createProfile/": {
+      "post": {
+        "tags": [
+          "Profile"
+        ],
+        "description": "Endpoint to sign in a specific user",
+        "parameters": [
+          {
+            "name": "obj",
+            "in": "body",
+            "description": "User information.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Profile"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "422": {
+            "description": "Unprocessable Entity"
+          }
+        }
+      }
+    },
+    "/user/createUser/": {
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "description": "Endpoint to create one user.",
+        "parameters": [
+          {
+            "name": "user",
+            "in": "body",
+            "description": "User data.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "422": {
+            "description": "Unprocessable Entity"
+          }
+        }
+      }
+    },
+    "/user/getUser/{userId}": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "description": "Endpoint to retrieve one user.",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "422": {
+            "description": "Unprocessable Entity"
+          }
+        }
+      }
+    },
+    "/comment/createComment/": {
+      "post": {
+        "tags": [
+          "Comment"
+        ],
+        "description": "Endpoint to create a new comment",
+        "parameters": [
+          {
+            "name": "comment",
+            "in": "body",
+            "description": "Comment data.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Comment"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "422": {
+            "description": "Unprocessable Entity"
+          }
+        }
+      }
+    },
+    "/comment/voteComment/{commentId}": {
+      "put": {
+        "tags": [
+          "Vote"
+        ],
+        "description": "Endpoint to make a vote.",
+        "parameters": [
+          {
+            "name": "commentId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "mbti",
+            "in": "query",
+            "description": "MBTI",
+            "required": false,
+            "type": "enum",
+            "enum": [
+              "INFP",
+              "INFJ",
+              "ENFP",
+              "ENFJ",
+              "INTJ",
+              "INTP",
+              "ENTP",
+              "ENTJ",
+              "ISFP",
+              "ISFJ",
+              "ESFP",
+              "ESFJ",
+              "ISTP",
+              "ISTJ",
+              "ESTP",
+              "ESTJ"
+            ]
+          },
+          {
+            "name": "enneagram",
+            "in": "query",
+            "description": "Enneagram",
+            "required": false,
+            "type": "enum",
+            "enum": [
+              "1w2",
+              "2w3",
+              "3w2",
+              "3w4",
+              "4w3",
+              "4w5",
+              "5w4",
+              "5w6",
+              "6w5",
+              "6w7",
+              "7w6",
+              "7w8",
+              "8w7",
+              "8w9",
+              "9w8",
+              "9w1"
+            ]
+          },
+          {
+            "name": "zodiac",
+            "in": "query",
+            "description": "Zodiac",
+            "required": false,
+            "type": "enum",
+            "enum": [
+              "Aries",
+              "Taurus",
+              "Gemini",
+              "Cancer",
+              "Leo",
+              "Virgo",
+              "Libra",
+              "Scorpio",
+              "Sagittarius",
+              "Capricorn",
+              "Aquarius",
+              "Pisces"
+            ]
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "422": {
+            "description": "Unprocessable Entity"
+          }
+        }
+      }
+    },
+    "/comment/recentComment": {
+      "get": {
+        "tags": [
+          "Comment"
+        ],
+        "description": "Endpoint to retrieve recent comments.",
+        "parameters": [
+          {
+            "name": "commentedBy",
+            "in": "query",
+            "description": "Comment made by",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "commentedAt",
+            "in": "query",
+            "description": "Commented at",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "likes",
+            "in": "query",
+            "description": "Number of likes",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "dislikes",
+            "in": "query",
+            "description": "Number of dislikes",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "mbti",
+            "in": "query",
+            "description": "MBTI",
+            "required": false,
+            "type": "enum",
+            "enum": [
+              "INFP",
+              "INFJ",
+              "ENFP",
+              "ENFJ",
+              "INTJ",
+              "INTP",
+              "ENTP",
+              "ENTJ",
+              "ISFP",
+              "ISFJ",
+              "ESFP",
+              "ESFJ",
+              "ISTP",
+              "ISTJ",
+              "ESTP",
+              "ESTJ"
+            ]
+          },
+          {
+            "name": "enneagram",
+            "in": "query",
+            "description": "Enneagram",
+            "required": false,
+            "type": "enum",
+            "enum": [
+              "1w2",
+              "2w3",
+              "3w2",
+              "3w4",
+              "4w3",
+              "4w5",
+              "5w4",
+              "5w6",
+              "6w5",
+              "6w7",
+              "7w6",
+              "7w8",
+              "8w7",
+              "8w9",
+              "9w8",
+              "9w1"
+            ]
+          },
+          {
+            "name": "zodiac",
+            "in": "query",
+            "description": "Zodiac",
+            "required": false,
+            "type": "enum",
+            "enum": [
+              "Aries",
+              "Taurus",
+              "Gemini",
+              "Cancer",
+              "Leo",
+              "Virgo",
+              "Libra",
+              "Scorpio",
+              "Sagittarius",
+              "Capricorn",
+              "Aquarius",
+              "Pisces"
+            ]
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "422": {
+            "description": "Unprocessable Entity"
+          }
+        }
+      }
+    },
+    "/comment/likeComment/{commentId}": {
+      "put": {
+        "tags": [
+          "Like/Dislike"
+        ],
+        "description": "Endpoint to update an existing comment",
+        "parameters": [
+          {
+            "name": "commentId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "value",
+            "in": "query",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "422": {
+            "description": "Unprocessable Entity"
+          }
+        }
+      }
+    },
+    "/comment/dislikeComment/{commentId}": {
+      "put": {
+        "tags": [
+          "Like/Dislike"
+        ],
+        "description": "Endpoint to update an existing comment",
+        "parameters": [
+          {
+            "name": "commentId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "value",
+            "in": "query",
+            "description": "Comment data.",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "422": {
+            "description": "Unprocessable Entity"
+          }
+        }
+      }
+    },
+    "/comment/filter/filterComments/": {
+      "get": {
+        "tags": [
+          "Comment"
+        ],
+        "description": "Endpoint to filter and retrieve all comments",
+        "parameters": [
+          {
+            "name": "commentedBy",
+            "in": "query",
+            "description": "Comment made by",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "commentedAt",
+            "in": "query",
+            "description": "Commented at",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "likes",
+            "in": "query",
+            "description": "Number of likes",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "dislikes",
+            "in": "query",
+            "description": "Number of dislikes",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "mbti",
+            "in": "query",
+            "description": "MBTI",
+            "required": false,
+            "type": "enum",
+            "enum": [
+              "INFP",
+              "INFJ",
+              "ENFP",
+              "ENFJ",
+              "INTJ",
+              "INTP",
+              "ENTP",
+              "ENTJ",
+              "ISFP",
+              "ISFJ",
+              "ESFP",
+              "ESFJ",
+              "ISTP",
+              "ISTJ",
+              "ESTP",
+              "ESTJ"
+            ]
+          },
+          {
+            "name": "enneagram",
+            "in": "query",
+            "description": "Enneagram",
+            "required": false,
+            "type": "enum",
+            "enum": [
+              "1w2",
+              "2w3",
+              "3w2",
+              "3w4",
+              "4w3",
+              "4w5",
+              "5w4",
+              "5w6",
+              "6w5",
+              "6w7",
+              "7w6",
+              "7w8",
+              "8w7",
+              "8w9",
+              "9w8",
+              "9w1"
+            ]
+          },
+          {
+            "name": "zodiac",
+            "in": "query",
+            "description": "Zodiac",
+            "required": false,
+            "type": "enum",
+            "enum": [
+              "Aries",
+              "Taurus",
+              "Gemini",
+              "Cancer",
+              "Leo",
+              "Virgo",
+              "Libra",
+              "Scorpio",
+              "Sagittarius",
+              "Capricorn",
+              "Aquarius",
+              "Pisces"
+            ]
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/comment/topComment": {
+      "get": {
+        "tags": [
+          "Comment"
+        ],
+        "description": "Endpoint to get top comment.",
+        "parameters": [
+          {
+            "name": "commentedBy",
+            "in": "query",
+            "description": "Comment made by",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "commentedAt",
+            "in": "query",
+            "description": "Commented at",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/comment/getComments/{commentedAt}": {
+      "get": {
+        "tags": [
+          "Comment"
+        ],
+        "description": "Endpoint to retrieve all comments!",
+        "parameters": [
+          {
+            "name": "commentedAt",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "Comment at which user."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "422": {
+            "description": "Unprocessable Entity"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Profile": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "number",
+          "example": 1
+        },
+        "name": {
+          "type": "string",
+          "example": "A Martinez"
+        },
+        "description": {
+          "type": "string",
+          "example": "Adolph Larrue Martinez III."
+        },
+        "mbti": {
+          "type": "string",
+          "example": "ISFJ"
+        },
+        "enneagram": {
+          "type": "string",
+          "example": "9w3"
+        },
+        "variant": {
+          "type": "string",
+          "example": "sp/so"
+        },
+        "tritype": {
+          "type": "number",
+          "example": 725
+        },
+        "socionics": {
+          "type": "string",
+          "example": "SEE"
+        },
+        "sloan": {
+          "type": "string",
+          "example": "RCOEN"
+        },
+        "psyche": {
+          "type": "string",
+          "example": "FEVL"
+        }
+      }
+    },
+    "User": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "example": "Jhon Doe"
+        }
+      }
+    },
+    "Comment": {
+      "type": "object",
+      "properties": {
+        "comment": {
+          "type": "string",
+          "example": "A long comment"
+        },
+        "commentedBy": {
+          "type": "string",
+          "example": "6300cbd5ffa8d8a33d2ea8c3"
+        },
+        "commentedAt": {
+          "type": "string",
+          "example": "6300cbd5ffa8d8a33d2ea8c3"
+        }
+      }
+    }
+  }
+}
